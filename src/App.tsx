@@ -1,12 +1,12 @@
 
+import AuthPage from '@/presentation/auth/auth-page';
 import './App.css'
+
 
 function App() {
 
   return (
-    <>
-      <h1 className="bg-amber-400">AAAAAAA</h1>
-    </>
+    <AuthPage />
   )
 }
 
