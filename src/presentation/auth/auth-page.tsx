@@ -1,24 +1,46 @@
-import { ConfirmButton } from "@/presentation/shared/components/confirm-button";
-import { AuthField } from "@/presentation/auth/components/auth-field";
 export default function AuthPage() {
     return (
-        <>
-            <div>
-                <div className="bg-secondary rounded-full absolute m-8 p-8 flex flex-col gap-2">
-                    <h1 className="text-secondary-content">Dumb Clock</h1>
-                    <p className="text-secondary-content">Entre na sua conta</p>
-                    <AuthField
-                        label="Nome de usuário"
-                        placeholder="Digite seu username"
-                    />
-                    <AuthField
-                        label="Senha"
-                        type="password"
-                        placeholder="Digite sua senha"
-                    />
-                    <ConfirmButton text="Entrar" onClick={() => alert('clicou')}></ConfirmButton>
+        <main className="min-h-screen bg-base-200 flex items-center justify-center p-6">
+            <form
+                className="card w-full max-w-sm bg-base-100 shadow-2xl border border-base-300"
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    alert('clicou')
+                }}
+            >
+                <div className="card-body gap-4">
+                    <header className="space-y-1">
+                        <h1 className="card-title text-3xl">Dumb Clock</h1>
+                        <p className="text-base-content/70">Entre na sua conta</p>
+                    </header>
+
+                    <label className="form-control">
+                        <span className="label">
+                            <span className="label-text">Nome de usuário</span>
+                        </span>
+                        <input
+                            className="input input-bordered w-full"
+                            placeholder="Digite seu username"
+                            type="text"
+                        />
+                    </label>
+
+                    <label className="form-control">
+                        <span className="label">
+                            <span className="label-text">Senha</span>
+                        </span>
+                        <input
+                            className="input input-bordered w-full"
+                            placeholder="Digite sua senha"
+                            type="password"
+                        />
+                    </label>
+
+                    <button className="btn btn-primary" type="submit">
+                        Entrar
+                    </button>
                 </div>
-            </div>
-        </>
+            </form>
+        </main>
     )
 }
