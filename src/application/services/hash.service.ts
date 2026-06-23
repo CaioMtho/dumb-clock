@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs'
 import { type HashService } from "@/domain/services/hash.service";
 
 const saltRounds = 10;

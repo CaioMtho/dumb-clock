@@ -6,6 +6,7 @@ import { EyeIcon, EyeOffIcon, LockIcon } from '@/presentation/icons'
 type PasswordFieldProps = {
   label: string
   hint?: string
+  name?: string
   autoComplete?: 'current-password' | 'new-password'
   placeholder?: string
 }
@@ -13,6 +14,7 @@ type PasswordFieldProps = {
 export default function PasswordField({
   label,
   hint,
+  name,
   autoComplete,
   placeholder,
 }: PasswordFieldProps) {
@@ -30,6 +32,7 @@ export default function PasswordField({
             autoComplete={autoComplete}
             className="input h-11 min-w-0 flex-1 border-0 bg-transparent text-[#f8f8f2] placeholder:text-[#6272a4] focus:outline-none"
             id={inputId}
+            name={name}
             placeholder={placeholder}
             type={isVisible ? 'text' : 'password'}
           />

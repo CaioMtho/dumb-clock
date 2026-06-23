@@ -1,10 +1,16 @@
+import { useState } from 'react'
+
 import AuthField from '@/presentation/auth/components/auth-field'
 import LoginShell from '@/presentation/auth/components/login-shell'
 import LoginBrandPanel from '@/presentation/auth/components/login-brand-panel'
 import PasswordField from '@/presentation/auth/components/password-field'
 import { LoginIcon, UserIcon } from '@/presentation/icons'
+import { useDeps } from '@/presentation/deps'
 
 export default function LoginPage() {
+  const authenticateUserCommandHandler = useDeps('authenticateUserCommandHandler')
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
+
   return (
     <LoginShell>
       <section className="grid w-full overflow-hidden rounded-[22px] border border-[#4b4d62]/70 bg-[#282a36] shadow-[0_30px_90px_rgba(0,0,0,0.45)] lg:grid-cols-2">
@@ -12,8 +18,26 @@ export default function LoginPage() {
           <form
             aria-label="Formulário de login"
             className="flex w-full max-w-72.5 flex-col gap-4"
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault()
+
+              const formData = new FormData(event.currentTarget)
+              const username = String(formData.get('username') ?? '')
+              const password = String(formData.get('password') ?? '')
+
+              if (!username || !password) {
+                setFeedbackMessage('Preencha usuário e senha.')
+                return
+              }
+
+              const isAuthenticated = await authenticateUserCommandHandler.handle({
+                username,
+                password,
+              })
+
+              setFeedbackMessage(
+                isAuthenticated ? 'Credenciais válidas.' : 'Usuário ou senha inválidos.',
+              )
             }}
           >
             <header className="space-y-2">
@@ -49,11 +73,21 @@ export default function LoginPage() {
               <PasswordField
                 autoComplete="current-password"
                 label="Senha"
+                name="password"
                 placeholder="••••••••"
               />
             </fieldset>
 
-            <button className="btn h-11 border-0 bg-[#bd93f9] font-medium text-[#282a36] hover:bg-[#caa8ff]" type="submit">
+            {feedbackMessage ? (
+              <p aria-live="polite" className="text-sm leading-6 text-[#f8f8f2]">
+                {feedbackMessage}
+              </p>
+            ) : null}
+
+            <button
+              className="btn h-11 border-0 bg-[#bd93f9] font-medium text-[#282a36] hover:bg-[#caa8ff]"
+              type="submit"
+            >
               <LoginIcon className="h-5 w-5" />
               Entrar
             </button>
