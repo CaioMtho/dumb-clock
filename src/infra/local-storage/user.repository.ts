@@ -3,13 +3,14 @@ import { type UserRepository } from "@/domain/repositories/user.repository";
 import { Storage } from "./storage";
 
 export class UserRepositoryImpl implements UserRepository {
-    create(username: string, password: string, role : UserRole): Promise<void> {
+    create(username: string, password: string, role : UserRole, requiredHours?: number): Promise<void> {
         const users : User[] = Storage.getAsObject<User[]>("users") || [];
         const newUser : User = {
             id : crypto.randomUUID(),
             username : username,
             password : password,
-            role : role
+            role : role,
+            requiredHours : requiredHours
         }
 
         users.push(newUser);
@@ -17,7 +18,7 @@ export class UserRepositoryImpl implements UserRepository {
         return Promise.resolve();
     }
 
-    update(id : string, username?: string, password?: string): Promise<void> {
+    update(id : string, username?: string, password?: string, requiredHours?: number): Promise<void> {
         const users : User[] = Storage.getAsObject<User[]>("users") || [];
         const user = users.find(u => u.id === id);
 
@@ -31,6 +32,10 @@ export class UserRepositoryImpl implements UserRepository {
 
         if(password) {
             user.password = password;
+        }
+
+        if(requiredHours !== undefined) {
+            user.requiredHours = requiredHours;
         }
 
         Storage.setAsObject("users", users, true);

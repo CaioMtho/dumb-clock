@@ -17,6 +17,11 @@ export class CreateUserCommandHandlerImpl implements CreateUserCommandHandler {
 
     async handle(command: CreateUserCommand): Promise<void> {
         const password = await this.hashService.hash(command.password);
-        return this.repository.create(command.username, password, command.role);
+        return this.repository.create(
+            command.username,
+            password,
+            command.role,
+            command.requiredHours,
+        );
     }
 }

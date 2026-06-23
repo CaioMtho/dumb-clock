@@ -20,6 +20,11 @@ export class UpdateUserCommandHandlerImpl implements UpdateUserCommandHandler {
             ? await this.hashService.hash(command.password)
             : undefined;
 
-        return this.repository.update(command.id, command.username, password);
+        return this.repository.update(
+            command.id,
+            command.username,
+            password,
+            command.requiredHours,
+        );
     }
 }

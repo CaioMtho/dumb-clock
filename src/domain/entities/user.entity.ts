@@ -3,12 +3,12 @@ export interface User {
     username: string;
     password: string;
     role : UserRole;
+    requiredHours?: number;
 }
 
 export type UserRole = 
 'admin'
 | 'collaborator';
-
 
 
 

@@ -4,4 +4,5 @@ export type CreateUserCommand = {
     username: string;
     password: string;
     role: UserRole;
+    requiredHours?: number;
 }
