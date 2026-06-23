@@ -1,46 +1,46 @@
 <mxfile host="65bd71144e">
     <diagram id="65y2UuGEiznF9UGc3oIL" name="Page-1">
-        <mxGraphModel dx="391" dy="473" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="662" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="17" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="8">
+                <mxCell id="17" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="2" target="8" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="70" y="110" width="350" height="250" as="geometry"/>
                 </mxCell>
-                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="70" y="110" width="130" height="250" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="LOGIN AQUI" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="6" value="LOGIN AQUI" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="210" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="TÍTULO DUMB CLOCK&lt;div&gt;MOTIVADOR&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="7" value="TÍTULO DUMB CLOCK&lt;div&gt;MOTIVADOR&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="280" y="210" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="70" y="410" width="350" height="250" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="9" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="70" y="410" width="130" height="250" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="LOGADO COMO:&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;usuário&lt;/div&gt;&lt;div&gt;role&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="11" value="LOGADO COMO:&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;usuário&lt;/div&gt;&lt;div&gt;role&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="450" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="12" value="EXIBIR ESTADO ATUAL E CONTAGEM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="12" value="EXIBIR ESTADO ATUAL E CONTAGEM" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="550" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="INTERAÇÕES AQUI" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="13" value="INTERAÇÕES AQUI" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="280" y="460" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" value="SE ADMIN, PODE VER HISTÓRICO DE PONTOS DOS OUTROS" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="14" value="SE ADMIN, PODE VER HISTÓRICO DE PONTOS DOS OUTROS" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="230" y="570" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" value="SE NÃO-ADMIN, PODE VER HISTÓRICO DOS PRÓPRIOS PONTOS E BOTÃO" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="16" value="SE NÃO-ADMIN, PODE VER HISTÓRICO DOS PRÓPRIOS PONTOS E BOTÃO DE PONTO" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="330" y="570" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="SAIR" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                <mxCell id="18" value="SAIR" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="105" y="620" width="60" height="30" as="geometry"/>
                 </mxCell>
             </root>

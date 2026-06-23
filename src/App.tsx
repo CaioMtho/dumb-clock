@@ -1,13 +1,6 @@
 
-import AuthPage from '@/presentation/auth/auth-page';
-import './App.css'
+import AppRouter from '@/presentation/app-router'
 
-
-function App() {
-
-  return (
-    <AuthPage />
-  )
+export default function App() {
+  return <AppRouter />
 }
-
-export default App

@@ -1,0 +1,313 @@
+
+<style>
+:root {
+  --dc-bg: #282a36;
+  --dc-surface: #44475a;
+  --dc-border: rgba(98,114,164,0.4);
+  --dc-purple: #bd93f9;
+  --dc-pink: #ff79c6;
+  --dc-cyan: #8be9fd;
+  --dc-green: #50fa7b;
+  --dc-yellow: #f1fa8c;
+  --dc-orange: #ffb86c;
+  --dc-red: #ff5555;
+  --dc-fg: #f8f8f2;
+  --dc-comment: #6272a4;
+  --dc-radius: 10px;
+  --dc-radius-sm: 6px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
+.proto-wrap { background: #1e1f29; padding: 24px; border-radius: var(--border-radius-lg); display: flex; flex-direction: column; gap: 32px; }
+.screen-label { font-size: 11px; color: var(--dc-comment); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.screen { background: var(--dc-bg); border-radius: var(--dc-radius); border: 0.5px solid var(--dc-border); overflow: hidden; }
+
+.login-screen { display: grid; grid-template-columns: 1fr 1fr; min-height: 380px; }
+.login-left { border-right: 0.5px solid var(--dc-border); display: flex; align-items: center; justify-content: center; padding: 40px 32px; }
+.login-card { width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px; }
+.login-card h2 { font-size: 20px; font-weight: 500; color: var(--dc-fg); }
+.login-card p { font-size: 13px; color: var(--dc-comment); }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12px; color: var(--dc-comment); }
+.field-input { background: #1e1f29; border: 0.5px solid var(--dc-border); border-radius: var(--dc-radius-sm); padding: 9px 12px; color: var(--dc-fg); font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.field-input i { color: var(--dc-comment); font-size: 16px; }
+.field-input span { color: var(--dc-comment); font-size: 14px; }
+.field-input .cursor { display: inline-block; width: 1px; height: 14px; background: var(--dc-purple); vertical-align: middle; }
+.btn-primary { background: var(--dc-purple); color: #282a36; border-radius: var(--dc-radius-sm); padding: 10px 16px; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; border: none; cursor: pointer; }
+.login-right { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; gap: 12px; }
+.brand-icon { width: 56px; height: 56px; border-radius: 14px; background: #1e1f29; border: 0.5px solid var(--dc-border); display: flex; align-items: center; justify-content: center; }
+.brand-icon i { font-size: 26px; color: var(--dc-purple); }
+.brand-title { font-size: 22px; font-weight: 500; color: var(--dc-fg); text-align: center; letter-spacing: -0.3px; }
+.brand-sub { font-size: 13px; color: var(--dc-comment); text-align: center; line-height: 1.6; max-width: 200px; }
+
+.dash-screen {}
+.dash-header { background: #1e1f29; border-bottom: 0.5px solid var(--dc-border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+.dash-header-left { display: flex; align-items: center; gap: 10px; }
+.dash-header-left i { font-size: 20px; color: var(--dc-purple); }
+.dash-header-left span { font-size: 15px; font-weight: 500; color: var(--dc-fg); }
+.dash-header-right { display: flex; align-items: center; gap: 12px; }
+.user-info { text-align: right; }
+.user-info .name { font-size: 13px; font-weight: 500; color: var(--dc-fg); }
+.user-info .role { font-size: 11px; color: var(--dc-comment); }
+.role-badge { background: rgba(189,147,249,0.15); border: 0.5px solid rgba(189,147,249,0.35); color: var(--dc-purple); font-size: 11px; padding: 3px 8px; border-radius: 20px; }
+.btn-ghost { background: transparent; border: 0.5px solid var(--dc-border); border-radius: var(--dc-radius-sm); padding: 7px 12px; color: var(--dc-comment); font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.btn-ghost:hover { color: var(--dc-red); border-color: var(--dc-red); }
+
+.dash-body { display: grid; grid-template-columns: 260px 1fr; min-height: 420px; }
+.dash-sidebar { border-right: 0.5px solid var(--dc-border); padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+.sidebar-section { display: flex; flex-direction: column; gap: 8px; }
+.sidebar-label { font-size: 11px; color: var(--dc-comment); text-transform: uppercase; letter-spacing: 0.07em; }
+
+.status-card { background: #1e1f29; border-radius: var(--dc-radius); border: 0.5px solid var(--dc-border); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.status-row { display: flex; align-items: center; justify-content: space-between; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dc-green); box-shadow: 0 0 0 3px rgba(80,250,123,0.2); }
+.status-dot.pause { background: var(--dc-yellow); box-shadow: 0 0 0 3px rgba(241,250,140,0.2); }
+.status-text { font-size: 13px; color: var(--dc-fg); display: flex; align-items: center; gap: 6px; }
+.status-timer { font-size: 22px; font-weight: 500; color: var(--dc-cyan); font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+.status-since { font-size: 11px; color: var(--dc-comment); }
+
+.clock-actions { display: flex; flex-direction: column; gap: 6px; }
+.btn-action { border-radius: var(--dc-radius-sm); padding: 9px 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; border: 0.5px solid; cursor: pointer; }
+.btn-entrada { background: rgba(80,250,123,0.1); border-color: rgba(80,250,123,0.3); color: var(--dc-green); }
+.btn-saida { background: rgba(255,85,85,0.1); border-color: rgba(255,85,85,0.3); color: var(--dc-red); }
+.btn-pausa { background: rgba(241,250,140,0.1); border-color: rgba(241,250,140,0.3); color: var(--dc-yellow); }
+.btn-retorno { background: rgba(139,233,253,0.1); border-color: rgba(139,233,253,0.3); color: var(--dc-cyan); }
+
+.dash-main { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.panel-header { display: flex; align-items: center; justify-content: space-between; }
+.panel-title { font-size: 15px; font-weight: 500; color: var(--dc-fg); display: flex; align-items: center; gap: 8px; }
+.panel-title i { font-size: 18px; color: var(--dc-comment); }
+
+.filter-row { display: flex; align-items: center; gap: 8px; }
+.filter-input { background: #1e1f29; border: 0.5px solid var(--dc-border); border-radius: var(--dc-radius-sm); padding: 7px 10px; color: var(--dc-fg); font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.filter-input i { color: var(--dc-comment); font-size: 15px; }
+.filter-input span { color: var(--dc-comment); font-size: 13px; }
+.filter-select { background: #1e1f29; border: 0.5px solid var(--dc-border); border-radius: var(--dc-radius-sm); padding: 7px 10px; color: var(--dc-comment); font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.filter-select i { font-size: 15px; }
+
+.history-table { background: #1e1f29; border-radius: var(--dc-radius); border: 0.5px solid var(--dc-border); overflow: hidden; }
+.table-head { display: grid; grid-template-columns: 1fr 80px 80px 80px 90px 72px; padding: 10px 14px; border-bottom: 0.5px solid var(--dc-border); }
+.th-cell { font-size: 11px; color: var(--dc-comment); text-transform: uppercase; letter-spacing: 0.06em; }
+.table-row { display: grid; grid-template-columns: 1fr 80px 80px 80px 90px 72px; padding: 11px 14px; border-bottom: 0.5px solid rgba(98,114,164,0.15); align-items: center; }
+.table-row:last-child { border-bottom: none; }
+.td-cell { font-size: 13px; color: var(--dc-fg); }
+.td-cell.muted { color: var(--dc-comment); }
+.td-cell.mono { font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+.badge-status { font-size: 11px; padding: 3px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; }
+.badge-ok { background: rgba(80,250,123,0.12); border: 0.5px solid rgba(80,250,123,0.3); color: var(--dc-green); }
+.badge-late { background: rgba(255,184,108,0.12); border: 0.5px solid rgba(255,184,108,0.3); color: var(--dc-orange); }
+.badge-miss { background: rgba(255,85,85,0.12); border: 0.5px solid rgba(255,85,85,0.3); color: var(--dc-red); }
+
+.admin-col { color: var(--dc-purple); font-size: 13px; }
+</style>
+
+<div class="proto-wrap">
+
+  <div>
+    <p class="screen-label">Tela 1 — Login</p>
+    <div class="screen login-screen">
+      <div class="login-left">
+        <div class="login-card">
+          <div>
+            <h2>Bom dia 👋</h2>
+            <p style="margin-top:4px">Entre com suas credenciais para continuar.</p>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Usuário</span>
+            <div class="field-input"><i class="ti ti-user" aria-hidden="true"></i><span>joao.silva</span></div>
+          </div>
+          <div class="field-group">
+            <span class="field-label">Senha</span>
+            <div class="field-input"><i class="ti ti-lock" aria-hidden="true"></i><span>••••••••</span><span class="cursor"></span></div>
+          </div>
+          <button class="btn-primary"><i class="ti ti-login" aria-hidden="true"></i>Entrar</button>
+        </div>
+      </div>
+      <div class="login-right">
+        <div class="brand-icon"><i class="ti ti-clock-hour-4" aria-hidden="true"></i></div>
+        <p class="brand-title">dumb clock</p>
+        <p class="brand-sub">Simples como bater ponto deveria ser.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="screen-label">Tela 2 — Dashboard (admin)</p>
+    <div class="screen dash-screen">
+      <div class="dash-header">
+        <div class="dash-header-left">
+          <i class="ti ti-clock-hour-4" aria-hidden="true"></i>
+          <span>dumb clock</span>
+        </div>
+        <div class="dash-header-right">
+          <div class="user-info">
+            <div class="name">João Silva</div>
+            <div class="role">joao.silva</div>
+          </div>
+          <span class="role-badge">admin</span>
+          <button class="btn-ghost"><i class="ti ti-logout" aria-hidden="true"></i>Sair</button>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        <div class="dash-sidebar">
+          <div class="sidebar-section">
+            <span class="sidebar-label">Estado atual</span>
+            <div class="status-card">
+              <div class="status-row">
+                <div class="status-text"><div class="status-dot"></div>Trabalhando</div>
+                <span class="status-timer">04:27</span>
+              </div>
+              <div class="status-since">Entrada às 08:32 · hoje</div>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-label">Ações</span>
+            <div class="clock-actions">
+              <button class="btn-action btn-pausa"><i class="ti ti-player-pause" aria-hidden="true"></i>Pausar</button>
+              <button class="btn-action btn-saida"><i class="ti ti-door-exit" aria-hidden="true"></i>Bater saída</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-main">
+          <div class="panel-header">
+            <div class="panel-title"><i class="ti ti-history" aria-hidden="true"></i>Histórico de pontos</div>
+            <div class="filter-row">
+              <div class="filter-select"><i class="ti ti-user-circle" style="color:var(--dc-comment)" aria-hidden="true"></i><span style="color:var(--dc-comment);font-size:13px">Todos os funcionários</span><i class="ti ti-chevron-down" style="color:var(--dc-comment)" aria-hidden="true"></i></div>
+              <div class="filter-input"><i class="ti ti-calendar" aria-hidden="true"></i><span>01/06/2025</span></div>
+              <div class="filter-input"><i class="ti ti-arrow-right" aria-hidden="true"></i><span>30/06/2025</span></div>
+            </div>
+          </div>
+
+          <div class="history-table">
+            <div class="table-head">
+              <div class="th-cell">Funcionário</div>
+              <div class="th-cell">Entrada</div>
+              <div class="th-cell">Pausa</div>
+              <div class="th-cell">Retorno</div>
+              <div class="th-cell">Saída</div>
+              <div class="th-cell">Status</div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell admin-col">João Silva</div>
+              <div class="td-cell mono">08:32</div>
+              <div class="td-cell mono">12:01</div>
+              <div class="td-cell mono">13:05</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell"><span class="badge-status badge-ok"><i class="ti ti-circle-check" style="font-size:11px" aria-hidden="true"></i>Em curso</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="color:var(--dc-fg)">Ana Costa</div>
+              <div class="td-cell mono">08:55</div>
+              <div class="td-cell mono">12:10</div>
+              <div class="td-cell mono">13:12</div>
+              <div class="td-cell mono">17:58</div>
+              <div class="td-cell"><span class="badge-status badge-ok"><i class="ti ti-circle-check" style="font-size:11px" aria-hidden="true"></i>Completo</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="color:var(--dc-fg)">Pedro Ramos</div>
+              <div class="td-cell mono">09:18</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono">17:42</div>
+              <div class="td-cell"><span class="badge-status badge-late"><i class="ti ti-alert-triangle" style="font-size:11px" aria-hidden="true"></i>Sem pausa</span></div>
+            </div>
+            <div class="table-row">
+              <div class="td-cell" style="color:var(--dc-fg)">Letícia Melo</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell"><span class="badge-status badge-miss"><i class="ti ti-x" style="font-size:11px" aria-hidden="true"></i>Ausente</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="screen-label">Tela 2 — Dashboard (funcionário)</p>
+    <div class="screen dash-screen">
+      <div class="dash-header">
+        <div class="dash-header-left">
+          <i class="ti ti-clock-hour-4" aria-hidden="true"></i>
+          <span>dumb clock</span>
+        </div>
+        <div class="dash-header-right">
+          <div class="user-info">
+            <div class="name">Ana Costa</div>
+            <div class="role">ana.costa</div>
+          </div>
+          <span class="role-badge" style="background:rgba(139,233,253,0.1);border-color:rgba(139,233,253,0.3);color:var(--dc-cyan)">funcionário</span>
+          <button class="btn-ghost"><i class="ti ti-logout" aria-hidden="true"></i>Sair</button>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        <div class="dash-sidebar">
+          <div class="sidebar-section">
+            <span class="sidebar-label">Estado atual</span>
+            <div class="status-card">
+              <div class="status-row">
+                <div class="status-text"><div class="status-dot pause"></div>Em pausa</div>
+                <span class="status-timer" style="color:var(--dc-yellow)">00:48</span>
+              </div>
+              <div class="status-since">Pausa desde 12:10 · hoje</div>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-label">Ações</span>
+            <div class="clock-actions">
+              <button class="btn-action btn-retorno"><i class="ti ti-player-play" aria-hidden="true"></i>Retornar da pausa</button>
+              <button class="btn-action btn-saida"><i class="ti ti-door-exit" aria-hidden="true"></i>Bater saída</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-main">
+          <div class="panel-header">
+            <div class="panel-title"><i class="ti ti-history" aria-hidden="true"></i>Meus pontos</div>
+            <div class="filter-row">
+              <div class="filter-input"><i class="ti ti-calendar" aria-hidden="true"></i><span>01/06/2025</span></div>
+              <div class="filter-input"><i class="ti ti-arrow-right" aria-hidden="true"></i><span>30/06/2025</span></div>
+            </div>
+          </div>
+
+          <div class="history-table">
+            <div class="table-head">
+              <div class="th-cell" style="grid-column:1/3">Data</div>
+              <div class="th-cell">Entrada</div>
+              <div class="th-cell">Pausa</div>
+              <div class="th-cell">Saída</div>
+              <div class="th-cell">Status</div>
+            </div>
+            <div class="table-row" style="grid-template-columns:1fr 80px 80px 80px 72px">
+              <div class="td-cell muted">23/06 · Hoje</div>
+              <div class="td-cell mono">08:55</div>
+              <div class="td-cell mono">12:10</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell"><span class="badge-status badge-ok">Em curso</span></div>
+            </div>
+            <div class="table-row" style="grid-template-columns:1fr 80px 80px 80px 72px">
+              <div class="td-cell muted">20/06 · Sex</div>
+              <div class="td-cell mono">09:02</div>
+              <div class="td-cell mono">12:00</div>
+              <div class="td-cell mono">18:01</div>
+              <div class="td-cell"><span class="badge-status badge-ok">Completo</span></div>
+            </div>
+            <div class="table-row" style="grid-template-columns:1fr 80px 80px 80px 72px">
+              <div class="td-cell muted">19/06 · Qui</div>
+              <div class="td-cell mono">08:47</div>
+              <div class="td-cell mono muted">—</div>
+              <div class="td-cell mono">17:55</div>
+              <div class="td-cell"><span class="badge-status badge-late">Sem pausa</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

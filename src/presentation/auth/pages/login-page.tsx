@@ -1,0 +1,67 @@
+import AuthField from '@/presentation/auth/components/auth-field'
+import LoginShell from '@/presentation/auth/components/login-shell'
+import LoginBrandPanel from '@/presentation/auth/components/login-brand-panel'
+import PasswordField from '@/presentation/auth/components/password-field'
+import { LoginIcon, UserIcon } from '@/presentation/icons'
+
+export default function LoginPage() {
+  return (
+    <LoginShell>
+      <section className="grid w-full overflow-hidden rounded-[22px] border border-[#4b4d62]/70 bg-[#282a36] shadow-[0_30px_90px_rgba(0,0,0,0.45)] lg:grid-cols-2">
+        <div className="flex items-center justify-center border-b border-[#4b4d62]/70 px-6 py-12 sm:px-10 lg:border-b-0 lg:border-r">
+          <form
+            aria-label="Formulário de login"
+            className="flex w-full max-w-72.5 flex-col gap-4"
+            onSubmit={(event) => {
+              event.preventDefault()
+            }}
+          >
+            <header className="space-y-2">
+              <h1 className="text-[22px] font-medium tracking-[-0.02em] text-[#f8f8f2]">
+                Bom dia 👋
+              </h1>
+              <p className="text-sm leading-6 text-[#6272a4]">
+                Vamos bater ponto?
+              </p>
+            </header>
+
+            <fieldset className="grid gap-3">
+              <legend className="sr-only">Credenciais de acesso</legend>
+
+              <AuthField label="Usuário">
+                {({ inputId }) => (
+                  <div className="flex overflow-hidden rounded-lg border border-[#4b4d62] bg-[#1e1f29]">
+                    <span className="pointer-events-none flex items-center border-r border-[#4b4d62] px-3 text-[#6272a4]">
+                      <UserIcon className="h-5 w-5" />
+                    </span>
+                    <input
+                      autoComplete="username"
+                      className="input h-11 min-w-0 flex-1 border-0 bg-transparent text-[#f8f8f2] placeholder:text-[#6272a4] focus:outline-none"
+                      id={inputId}
+                      name="username"
+                      placeholder="joao.silva"
+                      type="text"
+                    />
+                  </div>
+                )}
+              </AuthField>
+
+              <PasswordField
+                autoComplete="current-password"
+                label="Senha"
+                placeholder="••••••••"
+              />
+            </fieldset>
+
+            <button className="btn h-11 border-0 bg-[#bd93f9] font-medium text-[#282a36] hover:bg-[#caa8ff]" type="submit">
+              <LoginIcon className="h-5 w-5" />
+              Entrar
+            </button>
+          </form>
+        </div>
+
+        <LoginBrandPanel />
+      </section>
+    </LoginShell>
+  )
+}
