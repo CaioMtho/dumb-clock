@@ -18,6 +18,23 @@ export class UserRepositoryImpl implements UserRepository {
         return Promise.resolve();
     }
 
+    upsertByUsername(username: string, password: string, role: UserRole, requiredHours?: number): Promise<void> {
+        const users: User[] = Storage.getAsObject<User[]>("users") || [];
+        const existingUser = users.find(user => user.username === username);
+        const filteredUsers = users.filter(user => user.username !== username);
+        const user: User = {
+            id: existingUser?.id ?? crypto.randomUUID(),
+            username,
+            password,
+            role,
+            requiredHours,
+        };
+
+        filteredUsers.push(user);
+        Storage.setAsObject("users", filteredUsers, true);
+        return Promise.resolve();
+    }
+
     update(id : string, username?: string, password?: string, requiredHours?: number): Promise<void> {
         const users : User[] = Storage.getAsObject<User[]>("users") || [];
         const user = users.find(u => u.id === id);
