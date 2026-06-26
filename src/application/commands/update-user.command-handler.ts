@@ -25,6 +25,7 @@ export class UpdateUserCommandHandlerImpl implements UpdateUserCommandHandler {
             command.username,
             password,
             command.requiredHours,
+            command.displayName,
         );
     }
 }

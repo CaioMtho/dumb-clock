@@ -1,74 +1,103 @@
-import type { User, UserRole } from "@/domain/entities/user.entity";
-import { type UserRepository } from "@/domain/repositories/user.repository";
-import { Storage } from "./storage";
+import type { User, UserRole } from '@/domain/entities/user.entity'
+import { type UserRepository } from '@/domain/repositories/user.repository'
+import { Storage } from './storage'
 
 export class UserRepositoryImpl implements UserRepository {
-    create(username: string, password: string, role : UserRole, requiredHours?: number): Promise<void> {
-        const users : User[] = Storage.getAsObject<User[]>("users") || [];
-        const newUser : User = {
-            id : crypto.randomUUID(),
-            username : username,
-            password : password,
-            role : role,
-            requiredHours : requiredHours
-        }
-
-        users.push(newUser);
-        Storage.setAsObject("users", users, true);
-        return Promise.resolve();
+  create(
+    username: string,
+    password: string,
+    role: UserRole,
+    requiredHours?: number,
+    displayName?: string | null,
+  ): Promise<void> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    const newUser: User = {
+      id: crypto.randomUUID(),
+      username,
+      displayName,
+      password,
+      role,
+      requiredHours,
     }
 
-    upsertByUsername(username: string, password: string, role: UserRole, requiredHours?: number): Promise<void> {
-        const users: User[] = Storage.getAsObject<User[]>("users") || [];
-        const existingUser = users.find(user => user.username === username);
-        const filteredUsers = users.filter(user => user.username !== username);
-        const user: User = {
-            id: existingUser?.id ?? crypto.randomUUID(),
-            username,
-            password,
-            role,
-            requiredHours,
-        };
+    users.push(newUser)
+    Storage.setAsObject('users', users, true)
+    return Promise.resolve()
+  }
 
-        filteredUsers.push(user);
-        Storage.setAsObject("users", filteredUsers, true);
-        return Promise.resolve();
+  upsertByUsername(
+    username: string,
+    password: string,
+    role: UserRole,
+    requiredHours?: number,
+    displayName?: string | null,
+  ): Promise<void> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    const existingUser = users.find(user => user.username === username)
+    const filteredUsers = users.filter(user => user.username !== username)
+    const user: User = {
+      id: existingUser?.id ?? crypto.randomUUID(),
+      username,
+      displayName: displayName ?? existingUser?.displayName ?? null,
+      password,
+      role,
+      requiredHours,
     }
 
-    update(id : string, username?: string, password?: string, requiredHours?: number): Promise<void> {
-        const users : User[] = Storage.getAsObject<User[]>("users") || [];
-        const user = users.find(u => u.id === id);
+    filteredUsers.push(user)
+    Storage.setAsObject('users', filteredUsers, true)
+    return Promise.resolve()
+  }
 
-        if(!user) {
-            return Promise.reject(new Error("User not found"));
-        }
+  update(
+    id: string,
+    username?: string,
+    password?: string,
+    requiredHours?: number,
+    displayName?: string | null,
+  ): Promise<void> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    const user = users.find(currentUser => currentUser.id === id)
 
-        if(username) {
-            user.username = username;
-        }
-
-        if(password) {
-            user.password = password;
-        }
-
-        if(requiredHours !== undefined) {
-            user.requiredHours = requiredHours;
-        }
-
-        Storage.setAsObject("users", users, true);
-        return Promise.resolve();
+    if (!user) {
+      return Promise.reject(new Error('User not found'))
     }
 
-    get(username: string): Promise<User | null> {
-        const users : User[] = Storage.getAsObject<User[]>("users") || [];
-        const user = users.find(u => u.username === username);
-        return Promise.resolve(user || null);
+    if (username) {
+      user.username = username
     }
 
-    delete(id: string): Promise<void> {
-        const users : User[] = Storage.getAsObject<User[]>("users") || [];
-        const filteredUsers = users.filter(u => u.id !== id);
-        Storage.setAsObject("users", filteredUsers, true);
-        return Promise.resolve();
+    if (displayName !== undefined) {
+      user.displayName = displayName
     }
+
+    if (password) {
+      user.password = password
+    }
+
+    if (requiredHours !== undefined) {
+      user.requiredHours = requiredHours
+    }
+
+    Storage.setAsObject('users', users, true)
+    return Promise.resolve()
+  }
+
+  get(username: string): Promise<User | null> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    const user = users.find(currentUser => currentUser.username === username)
+    return Promise.resolve(user || null)
+  }
+
+  getAll(): Promise<User[]> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    return Promise.resolve(users)
+  }
+
+  delete(id: string): Promise<void> {
+    const users: User[] = Storage.getAsObject<User[]>('users') || []
+    const filteredUsers = users.filter(user => user.id !== id)
+    Storage.setAsObject('users', filteredUsers, true)
+    return Promise.resolve()
+  }
 }

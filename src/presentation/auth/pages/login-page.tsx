@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 import AuthField from '@/presentation/auth/components/auth-field'
 import LoginShell from '@/presentation/auth/components/login-shell'
@@ -6,10 +7,21 @@ import LoginBrandPanel from '@/presentation/auth/components/login-brand-panel'
 import PasswordField from '@/presentation/auth/components/password-field'
 import { LoginIcon, UserIcon } from '@/presentation/icons'
 import { useDeps } from '@/presentation/deps'
+import {
+  getAuthenticatedUser,
+  setAuthenticatedUser,
+} from '@/presentation/session'
 
 export default function LoginPage() {
   const authenticateUserCommandHandler = useDeps('authenticateUserCommandHandler')
+  const getUserQueryHandler = useDeps('getUserQueryHandler')
+  const navigate = useNavigate()
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
+  const authenticatedUser = getAuthenticatedUser()
+
+  if (authenticatedUser) {
+    return <Navigate replace to="/dashboard" />
+  }
 
   return (
     <LoginShell>
@@ -35,9 +47,26 @@ export default function LoginPage() {
                 password,
               })
 
-              setFeedbackMessage(
-                isAuthenticated ? 'Credenciais válidas.' : 'Usuário ou senha inválidos.',
-              )
+              if (!isAuthenticated) {
+                setFeedbackMessage('Usuário ou senha inválidos.')
+                return
+              }
+
+              const user = await getUserQueryHandler.handle({ username })
+
+              if (!user) {
+                setFeedbackMessage('Usuário autenticado não encontrado.')
+                return
+              }
+
+              setAuthenticatedUser({
+                id: user.id,
+                username: user.username,
+                displayName: user.displayName ?? null,
+                role: user.role,
+                requiredHours: user.requiredHours,
+              })
+              navigate('/dashboard', { replace: true })
             }}
           >
             <header className="space-y-2">

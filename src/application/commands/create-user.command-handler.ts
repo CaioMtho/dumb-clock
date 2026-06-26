@@ -22,6 +22,7 @@ export class CreateUserCommandHandlerImpl implements CreateUserCommandHandler {
             password,
             command.role,
             command.requiredHours,
+            command.displayName,
         );
     }
 }

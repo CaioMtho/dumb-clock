@@ -5,6 +5,8 @@ import { DeleteUserCommandHandlerImpl } from '@/application/commands/delete-user
 import { UpdateUserCommandHandlerImpl } from '@/application/commands/update-user.command-handler'
 import { EnsureAdminUserUseCaseImpl } from '@/application/use-cases/ensure-admin-user.usecase'
 import { GetUserQueryHandlerImpl } from '@/application/queries/get-user.query-handler'
+import { ListClockHistoryQueryHandlerImpl } from '@/application/queries/list-clock-history.query-handler'
+import { ListUsersQueryHandlerImpl } from '@/application/queries/list-users.query-handler'
 import { HashServiceImpl } from '@/application/services/hash.service'
 import { ClockRepositoryImpl } from '@/infra/local-storage/clock.repository'
 import { UserRepositoryImpl } from '@/infra/local-storage/user.repository'
@@ -42,4 +44,6 @@ export const appDependencies = {
   deleteUserCommandHandler: new DeleteUserCommandHandlerImpl(userRepository),
   updateUserCommandHandler: new UpdateUserCommandHandlerImpl(userRepository, hashService),
   getUserQueryHandler: new GetUserQueryHandlerImpl(userRepository),
+  listUsersQueryHandler: new ListUsersQueryHandlerImpl(userRepository),
+  listClockHistoryQueryHandler: new ListClockHistoryQueryHandlerImpl(clockRepository),
 } satisfies DepsContainer

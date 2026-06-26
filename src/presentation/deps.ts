@@ -6,6 +6,8 @@ import type { CreateUserCommandHandler } from '@/application/commands/create-use
 import type { DeleteUserCommandHandler } from '@/application/commands/delete-user.command-handler'
 import type { UpdateUserCommandHandler } from '@/application/commands/update-user.command-handler'
 import type { GetUserQueryHandler } from '@/application/queries/get-user.query-handler'
+import type { ListClockHistoryQueryHandler } from '@/application/queries/list-clock-history.query-handler'
+import type { ListUsersQueryHandler } from '@/application/queries/list-users.query-handler'
 import type { HashService } from '@/domain/services/hash.service'
 import type { ClockRepository } from '@/domain/repositories/clock.repository'
 import type { UserRepository } from '@/domain/repositories/user.repository'
@@ -20,6 +22,8 @@ export type DepsContainer = {
   deleteUserCommandHandler: DeleteUserCommandHandler
   updateUserCommandHandler: UpdateUserCommandHandler
   getUserQueryHandler: GetUserQueryHandler
+  listUsersQueryHandler: ListUsersQueryHandler
+  listClockHistoryQueryHandler: ListClockHistoryQueryHandler
 }
 
 export const DepsContext = createContext<DepsContainer | null>(null)
