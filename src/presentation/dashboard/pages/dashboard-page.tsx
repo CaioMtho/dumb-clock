@@ -42,6 +42,7 @@ export default function DashboardPage({ user }: DashboardPageProps) {
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false)
   const [createUserModalVersion, setCreateUserModalVersion] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [, forceElapsedRefresh] = useState(0)
 
   const isAdmin = user.role === 'admin'
   const dateRangeInvalid = startDate !== '' && endDate !== '' && startDate > endDate
@@ -69,10 +70,7 @@ export default function DashboardPage({ user }: DashboardPageProps) {
     () => buildHistoryRows(clocks, usersById),
     [clocks, usersById],
   )
-  const currentStatus = useMemo(
-    () => getCurrentStatus(currentUserClocks, user.id),
-    [currentUserClocks, user.id],
-  )
+  const currentStatus = getCurrentStatus(currentUserClocks, user.id)
 
   const loadDashboardData = useCallback(async (): Promise<void> => {
     setFeedbackMessage(null)
@@ -123,6 +121,29 @@ export default function DashboardPage({ user }: DashboardPageProps) {
   useEffect(() => {
     void Promise.resolve().then(() => loadDashboardData())
   }, [loadDashboardData])
+
+  useEffect(() => {
+    const triggerElapsedUpdate = (): void => {
+      forceElapsedRefresh(currentTick => currentTick + 1)
+    }
+
+    const now = new Date()
+    const millisecondsUntilNextMinute = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds())
+    let minuteIntervalId: number | undefined
+
+    const timeoutId = window.setTimeout(() => {
+      triggerElapsedUpdate()
+      minuteIntervalId = window.setInterval(triggerElapsedUpdate, 60000)
+    }, millisecondsUntilNextMinute)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+
+      if (minuteIntervalId !== undefined) {
+        window.clearInterval(minuteIntervalId)
+      }
+    }
+  }, [])
 
   async function handleClockAction(status: ClockStatus): Promise<void> {
     try {
