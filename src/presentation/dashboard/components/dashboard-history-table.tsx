@@ -24,8 +24,8 @@ export function DashboardHistoryTable({ rows, isLoading }: { rows: HistoryRow[],
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#4b4d62] bg-[#1e1f29]">
-      <div className="overflow-x-auto">
+    <div className="h-112 overflow-hidden rounded-xl border border-[#4b4d62] bg-[#1e1f29]">
+      <div className="h-full overflow-auto">
         <table className="table">
           <caption className="sr-only">Histórico de pontos filtrado</caption>
           <thead>

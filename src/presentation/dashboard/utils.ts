@@ -7,6 +7,7 @@ export type HistoryRow = {
   collaboratorId: string
   collaboratorName: string
   date: Date
+  requiredHours?: number
   inClock?: Clock
   lunchClock?: Clock
   returnClock?: Clock
@@ -59,13 +60,7 @@ const clockActionsByTone: Record<CurrentStatus['tone'], ClockAction[]> = {
       tone: 'danger',
     },
   ],
-  done: [
-    {
-      label: 'Bater entrada',
-      status: 'IN',
-      tone: 'success',
-    },
-  ],
+  done: [],
 }
 
 export function buildHistoryRows(clocks: Clock[], usersById: Map<string, User>): HistoryRow[] {
@@ -85,6 +80,7 @@ export function buildHistoryRows(clocks: Clock[], usersById: Map<string, User>):
         })
         : 'Usuário removido',
       date: new Date(clock.date),
+      requiredHours: user?.requiredHours,
     }
 
     if (clock.status === 'IN' && shouldReplaceEarliest(row.inClock, clock)) {
@@ -110,7 +106,7 @@ export function buildHistoryRows(clocks: Clock[], usersById: Map<string, User>):
     .sort((leftRow, rightRow) => rightRow.date.getTime() - leftRow.date.getTime())
 }
 
-export function getCurrentStatus(clocks: Clock[], userId: string): CurrentStatus {
+export function getCurrentStatus(clocks: Clock[], userId: string, requiredHours?: number): CurrentStatus {
   const today = getDateInputValue(new Date())
   const latestClock = clocks
     .filter(clock => clock.collaboratorId === userId && getDateInputValue(clock.date) === today)
@@ -137,6 +133,18 @@ export function getCurrentStatus(clocks: Clock[], userId: string): CurrentStatus
   }
 
   if (latestClock.status === 'OUT') {
+    const hasIncompleteWorkday = requiredHours !== undefined && getWorkedMinutesFromClocks(clocks) < requiredHours * 60
+
+    if (hasIncompleteWorkday) {
+      return {
+        label: 'Incompleto',
+        detail: `Saída às ${formatClockTime(latestClock)} · hoje`,
+        tone: 'done',
+        elapsed: '00:00',
+        actions: clockActionsByTone.done,
+      }
+    }
+
     return {
       label: 'Expediente encerrado',
       detail: `Saída às ${formatClockTime(latestClock)} · hoje`,
@@ -160,6 +168,18 @@ export function getHistoryRowStatus(row: HistoryRow): { label: string, className
     return {
       label: 'Ausente',
       className: 'border-red-300/30 bg-red-300/10 text-red-200',
+    }
+  }
+
+  if (row.outClock && row.requiredHours !== undefined) {
+    const workedMinutes = getWorkedMinutes(row)
+    const requiredMinutes = row.requiredHours * 60
+
+    if (workedMinutes !== null && workedMinutes < requiredMinutes) {
+      return {
+        label: 'Incompleto',
+        className: 'border-amber-300/30 bg-amber-300/10 text-amber-200',
+      }
     }
   }
 
@@ -196,6 +216,58 @@ function shouldReplaceEarliest(currentClock: Clock | undefined, nextClock: Clock
 
 function shouldReplaceLatest(currentClock: Clock | undefined, nextClock: Clock): boolean {
   return !currentClock || nextClock.date > currentClock.date
+}
+
+function getWorkedMinutes(row: HistoryRow): number | null {
+  if (!row.inClock || !row.outClock) {
+    return null
+  }
+
+  const totalMilliseconds = row.outClock.date.getTime() - row.inClock.date.getTime()
+
+  if (totalMilliseconds <= 0) {
+    return 0
+  }
+
+  const breakMilliseconds = row.lunchClock && row.returnClock
+    ? Math.max(0, row.returnClock.date.getTime() - row.lunchClock.date.getTime())
+    : 0
+
+  return Math.max(0, totalMilliseconds - breakMilliseconds) / 60000
+}
+
+function getWorkedMinutesFromClocks(clocks: Clock[]): number {
+  const latestInClock = clocks
+    .filter(clock => clock.status === 'IN')
+    .sort((leftClock, rightClock) => rightClock.date.getTime() - leftClock.date.getTime())[0]
+
+  const latestOutClock = clocks
+    .filter(clock => clock.status === 'OUT')
+    .sort((leftClock, rightClock) => rightClock.date.getTime() - leftClock.date.getTime())[0]
+
+  if (!latestInClock || !latestOutClock) {
+    return 0
+  }
+
+  const totalMilliseconds = latestOutClock.date.getTime() - latestInClock.date.getTime()
+
+  if (totalMilliseconds <= 0) {
+    return 0
+  }
+
+  const latestLunchClock = clocks
+    .filter(clock => clock.status === 'LUNCH')
+    .sort((leftClock, rightClock) => rightClock.date.getTime() - leftClock.date.getTime())[0]
+
+  const latestReturnClock = clocks
+    .filter(clock => clock.status === 'RETURN')
+    .sort((leftClock, rightClock) => rightClock.date.getTime() - leftClock.date.getTime())[0]
+
+  const breakMilliseconds = latestLunchClock && latestReturnClock
+    ? Math.max(0, latestReturnClock.date.getTime() - latestLunchClock.date.getTime())
+    : 0
+
+  return Math.max(0, totalMilliseconds - breakMilliseconds) / 60000
 }
 
 export function getDateInputValue(date: Date): string {

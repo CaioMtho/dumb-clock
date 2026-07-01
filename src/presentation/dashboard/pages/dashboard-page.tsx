@@ -70,7 +70,7 @@ export default function DashboardPage({ user }: DashboardPageProps) {
     () => buildHistoryRows(clocks, usersById),
     [clocks, usersById],
   )
-  const currentStatus = getCurrentStatus(currentUserClocks, user.id)
+  const currentStatus = getCurrentStatus(currentUserClocks, user.id, user.requiredHours)
 
   const loadDashboardData = useCallback(async (): Promise<void> => {
     setFeedbackMessage(null)
@@ -154,7 +154,12 @@ export default function DashboardPage({ user }: DashboardPageProps) {
         status,
       })
       await loadDashboardData()
-    } catch {
+    } catch (error) {
+      if (error instanceof Error && error.message.trim()) {
+        setFeedbackMessage(error.message)
+        return
+      }
+
       setFeedbackMessage('Não foi possível registrar o ponto.')
     }
   }
@@ -186,8 +191,8 @@ export default function DashboardPage({ user }: DashboardPageProps) {
   }
 
   return (
-    <div className="min-h-svh px-4 py-6 text-[#f8f8f2] sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[22px] border border-[#4b4d62]/70 bg-[#282a36] shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
+    <div className="flex min-h-svh items-center px-4 py-6 text-[#f8f8f2] sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full max-w-7xl overflow-hidden rounded-[22px] border border-[#4b4d62]/70 bg-[#282a36] shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
         <header className="flex flex-col gap-4 border-b border-[#4b4d62]/70 bg-[#1e1f29] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#4b4d62] bg-[#282a36] text-[#bd93f9]">
