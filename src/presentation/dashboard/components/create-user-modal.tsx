@@ -23,6 +23,8 @@ const defaultRequiredHoursByRole: Record<CreateUserFormInput['role'], string> = 
   collaborator: '8',
 }
 
+const fieldShellClassName = 'flex w-full items-stretch overflow-hidden rounded-lg border border-[#4b4d62] bg-[#1e1f29]'
+
 export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalProps) {
   const [username, setUsername] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -123,7 +125,7 @@ export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalPr
           <fieldset className="grid gap-3" disabled={isSubmitting}>
             <legend className="sr-only">Dados do novo usuário</legend>
 
-            <AuthField label="Usuário" hint="Usado no login. Evite espaços e duplicidade.">
+            <AuthField label="Usuário" hint="Usado no login.">
               {({ inputId, hintId }) => (
                 <div className="flex w-full items-stretch overflow-hidden rounded-lg border border-[#4b4d62] bg-[#1e1f29]">
                   <div className="flex items-center border-r border-[#4b4d62] px-3 text-[#6272a4]">
@@ -146,15 +148,17 @@ export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalPr
 
             <AuthField label="Nome de exibição" hint="Opcional. Mostrado no dashboard.">
               {({ inputId, hintId }) => (
-                <input
-                  aria-describedby={hintId}
-                  className="input input-bordered h-11 border-[#4b4d62] bg-[#1e1f29] text-[#f8f8f2] placeholder:text-[#6272a4]"
-                  id={inputId}
-                  onChange={event => setDisplayName(event.target.value)}
-                  placeholder="João Silva"
-                  type="text"
-                  value={displayName}
-                />
+                <div className={fieldShellClassName}>
+                  <input
+                    aria-describedby={hintId}
+                    className="input h-11 min-w-0 flex-1 border-0 bg-transparent text-[#f8f8f2] placeholder:text-[#6272a4] focus:outline-none"
+                    id={inputId}
+                    onChange={event => setDisplayName(event.target.value)}
+                    placeholder="João Silva"
+                    type="text"
+                    value={displayName}
+                  />
+                </div>
               )}
             </AuthField>
 
@@ -168,42 +172,46 @@ export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalPr
 
             <label className="form-control grid gap-2">
               <span className="label-text text-sm font-medium text-[#f8f8f2]">Perfil</span>
-              <select
-                className="select select-bordered border-[#4b4d62] bg-[#1e1f29] text-[#f8f8f2]"
-                onChange={event => {
-                  const nextRole = event.target.value as CreateUserFormInput['role']
-                  setRole(nextRole)
+              <div className={fieldShellClassName}>
+                <select
+                  className="select h-11 w-full border-0 bg-transparent text-[#f8f8f2] focus:outline-none"
+                  onChange={event => {
+                    const nextRole = event.target.value as CreateUserFormInput['role']
+                    setRole(nextRole)
 
-                  if (nextRole === 'admin') {
-                    setRequiredHours(defaultRequiredHoursByRole.admin)
-                    return
-                  }
+                    if (nextRole === 'admin') {
+                      setRequiredHours(defaultRequiredHoursByRole.admin)
+                      return
+                    }
 
-                  if (requiredHours.trim() === '') {
-                    setRequiredHours(defaultRequiredHoursByRole.collaborator)
-                  }
-                }}
-                value={role}
-              >
-                <option value="collaborator">Funcionário</option>
-                <option value="admin">Administrador</option>
-              </select>
+                    if (requiredHours.trim() === '') {
+                      setRequiredHours(defaultRequiredHoursByRole.collaborator)
+                    }
+                  }}
+                  value={role}
+                >
+                  <option value="collaborator">Funcionário</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </div>
             </label>
 
             <AuthField label="Carga horária diária" hint={requiredHoursHint}>
               {({ inputId, hintId }) => (
-                <input
-                  aria-describedby={hintId}
-                  className="input input-bordered h-11 border-[#4b4d62] bg-[#1e1f29] text-[#f8f8f2] placeholder:text-[#6272a4]"
-                  id={inputId}
-                  inputMode="numeric"
-                  min={0}
-                  onChange={event => setRequiredHours(event.target.value)}
-                  placeholder="8"
-                  step="0.5"
-                  type="number"
-                  value={requiredHours}
-                />
+                <div className={fieldShellClassName}>
+                  <input
+                    aria-describedby={hintId}
+                    className="input h-11 min-w-0 flex-1 border-0 bg-transparent text-[#f8f8f2] placeholder:text-[#6272a4] focus:outline-none"
+                    id={inputId}
+                    inputMode="numeric"
+                    min={0}
+                    onChange={event => setRequiredHours(event.target.value)}
+                    placeholder="8"
+                    step="0.5"
+                    type="number"
+                    value={requiredHours}
+                  />
+                </div>
               )}
             </AuthField>
           </fieldset>

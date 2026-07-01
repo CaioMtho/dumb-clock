@@ -14,6 +14,7 @@ function ProtectedDashboardRoute() {
   return <DashboardPage user={authenticatedUser} />
 }
 
+
 export default function AppRouter() {
   return (
     <Routes>

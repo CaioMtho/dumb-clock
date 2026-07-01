@@ -7,7 +7,7 @@ export function DashboardStatusBadge({ row }: { row: HistoryRow }) {
   const status = getHistoryRowStatus(row)
 
   return (
-    <span className={`badge border ${status.className}`}>
+    <span className={`badge border ${status.className} p-2 rounded-lg`}>
       {status.label}
     </span>
   )

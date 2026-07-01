@@ -177,16 +177,16 @@ export default function DashboardPage({ user }: DashboardPageProps) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-right">
+          <div className="flex items-center gap-5">
+            <div className="text-right mr-2">
               <p className="text-sm font-medium">{getUserDisplayName(user)}</p>
               <p className="text-xs text-[#6272a4]">{user.username}</p>
             </div>
-            <span className="badge border-[#bd93f9]/40 bg-[#bd93f9]/15 text-[#bd93f9]">
+            <span className="badge border-[#bd93f9]/40 bg-[#bd93f9]/15 text-[#bd93f9] p-2 rounded-lg">
               {user.role === 'admin' ? 'admin' : 'funcionário'}
             </span>
             <button
-              className="btn btn-sm border-[#4b4d62] bg-transparent text-[#6272a4] hover:border-red-300 hover:bg-red-300/10 hover:text-red-200"
+              className="btn btn-sm border-[#4b4d62] bg-transparent text-[#6272a4] hover:border-red-300 hover:bg-red-300/10 hover:text-red-200 rounded-lg"
               onClick={handleLogout}
               type="button"
             >
