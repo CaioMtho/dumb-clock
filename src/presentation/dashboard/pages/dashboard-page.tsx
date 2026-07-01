@@ -19,6 +19,7 @@ import {
 } from '@/presentation/dashboard/utils'
 import { DashboardHistoryTable } from '@/presentation/dashboard/components/dashboard-history-table'
 import { DashboardStatusCard } from '@/presentation/dashboard/components/dashboard-status-card'
+import { type CreateUserFormInput, CreateUserModal } from '@/presentation/dashboard/components/create-user-modal'
 
 type DashboardPageProps = {
   user: AuthenticatedUser
@@ -27,6 +28,7 @@ type DashboardPageProps = {
 export default function DashboardPage({ user }: DashboardPageProps) {
   const navigate = useNavigate()
   const createClockCommandHandler = useDeps('createClockCommandHandler')
+  const createUserCommandHandler = useDeps('createUserCommandHandler')
   const listUsersQueryHandler = useDeps('listUsersQueryHandler')
   const listClockHistoryQueryHandler = useDeps('listClockHistoryQueryHandler')
   const [users, setUsers] = useState<User[]>([])
@@ -36,6 +38,8 @@ export default function DashboardPage({ user }: DashboardPageProps) {
   const [startDate, setStartDate] = useState(getMonthStartValue(new Date()))
   const [endDate, setEndDate] = useState(getDateInputValue(new Date()))
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
+  const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false)
+  const [createUserModalVersion, setCreateUserModalVersion] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
   const isAdmin = user.role === 'admin'
@@ -138,6 +142,27 @@ export default function DashboardPage({ user }: DashboardPageProps) {
     navigate('/login', { replace: true })
   }
 
+  async function handleCreateUser(input: CreateUserFormInput): Promise<void> {
+    const normalizedUsername = input.username.trim()
+    const userAlreadyExists = users.some(currentUser => currentUser.username === normalizedUsername)
+
+    if (userAlreadyExists) {
+      throw new Error('Já existe usuário com esse login.')
+    }
+
+    await createUserCommandHandler.handle({
+      username: normalizedUsername,
+      displayName: input.displayName,
+      password: input.password,
+      role: input.role,
+      requiredHours: input.requiredHours,
+    })
+
+    await loadDashboardData()
+    setFeedbackMessage('Usuário criado com sucesso.')
+    setIsCreateUserModalOpen(false)
+  }
+
   return (
     <div className="min-h-svh px-4 py-6 text-[#f8f8f2] sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[22px] border border-[#4b4d62]/70 bg-[#282a36] shadow-[0_30px_90px_rgba(0,0,0,0.45)]">
@@ -203,9 +228,11 @@ export default function DashboardPage({ user }: DashboardPageProps) {
                   Administração
                 </h2>
                 <button
-                  aria-disabled="true"
                   className="btn justify-start border-[#bd93f9]/40 bg-[#bd93f9]/10 text-[#bd93f9] hover:bg-[#bd93f9]/15"
-                  onClick={() => setFeedbackMessage('Criação de usuário ainda não implementada.')}
+                  onClick={() => {
+                    setCreateUserModalVersion(currentVersion => currentVersion + 1)
+                    setIsCreateUserModalOpen(true)
+                  }}
                   type="button"
                 >
                   Criar usuário
@@ -285,6 +312,15 @@ export default function DashboardPage({ user }: DashboardPageProps) {
           </main>
         </div>
       </div>
+
+      {isAdmin ? (
+        <CreateUserModal
+          key={createUserModalVersion}
+          isOpen={isCreateUserModalOpen}
+          onClose={() => setIsCreateUserModalOpen(false)}
+          onCreate={handleCreateUser}
+        />
+      ) : null}
     </div>
   )
 }
