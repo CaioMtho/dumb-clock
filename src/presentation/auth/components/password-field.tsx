@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import AuthField from '@/presentation/auth/components/auth-field'
+import { Button } from '@/presentation/shared/components'
 import { EyeIcon, EyeOffIcon, LockIcon } from '@/presentation/icons'
 
 type PasswordFieldProps = {
@@ -36,18 +37,19 @@ export default function PasswordField({
             placeholder={placeholder}
             type={isVisible ? 'text' : 'password'}
           />
-          <button
+          <Button
             aria-label={isVisible ? 'Ocultar senha' : 'Mostrar senha'}
-            className="flex h-11 w-11 shrink-0 items-center justify-center border-0 border-l border-[#4b4d62] bg-transparent text-[#bd93f9] transition-colors hover:bg-[#282a36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bd93f9]/50"
+            className="border-l border-[#4b4d62] text-[#bd93f9] hover:bg-[#282a36]"
+            iconOnly
             onClick={() => setIsVisible((currentValue) => !currentValue)}
-            type="button"
+            variant="ghost"
           >
             {isVisible ? (
               <EyeOffIcon className="h-5 w-5" />
             ) : (
               <EyeIcon className="h-5 w-5" />
             )}
-          </button>
+          </Button>
         </div>
       )}
     </AuthField>

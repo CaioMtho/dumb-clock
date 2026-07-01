@@ -5,6 +5,7 @@ import AuthField from '@/presentation/auth/components/auth-field'
 import LoginShell from '@/presentation/auth/components/login-shell'
 import LoginBrandPanel from '@/presentation/auth/components/login-brand-panel'
 import PasswordField from '@/presentation/auth/components/password-field'
+import { Button } from '@/presentation/shared/components'
 import { LoginIcon, UserIcon } from '@/presentation/icons'
 import { useDeps } from '@/presentation/deps'
 import {
@@ -113,13 +114,10 @@ export default function LoginPage() {
               </p>
             ) : null}
 
-            <button
-              className="btn h-11 border-0 bg-[#bd93f9] font-medium text-[#282a36] hover:bg-[#caa8ff]"
-              type="submit"
-            >
+            <Button className="shadow-[0_12px_30px_rgba(189,147,249,0.22)]" fullWidth type="submit" variant="primary">
               <LoginIcon className="h-5 w-5" />
               Entrar
-            </button>
+            </Button>
           </form>
         </div>
 

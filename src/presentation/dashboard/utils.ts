@@ -24,7 +24,7 @@ export type CurrentStatus = {
 export type ClockAction = {
   label: string
   status: ClockStatus
-  className: string
+  tone: 'success' | 'warning' | 'danger' | 'info'
 }
 
 const clockActionsByTone: Record<CurrentStatus['tone'], ClockAction[]> = {
@@ -32,38 +32,38 @@ const clockActionsByTone: Record<CurrentStatus['tone'], ClockAction[]> = {
     {
       label: 'Bater entrada',
       status: 'IN',
-      className: 'border-emerald-300/30 bg-emerald-300/10 text-emerald-200 hover:bg-emerald-300/15',
+      tone: 'success',
     },
   ],
   working: [
     {
       label: 'Pausar',
       status: 'LUNCH',
-      className: 'border-yellow-300/30 bg-yellow-300/10 text-yellow-200 hover:bg-yellow-300/15',
+      tone: 'warning',
     },
     {
       label: 'Bater saída',
       status: 'OUT',
-      className: 'border-red-300/30 bg-red-300/10 text-red-200 hover:bg-red-300/15',
+      tone: 'danger',
     },
   ],
   lunch: [
     {
       label: 'Retornar da pausa',
       status: 'RETURN',
-      className: 'border-cyan-300/30 bg-cyan-300/10 text-cyan-200 hover:bg-cyan-300/15',
+      tone: 'info',
     },
     {
       label: 'Bater saída',
       status: 'OUT',
-      className: 'border-red-300/30 bg-red-300/10 text-red-200 hover:bg-red-300/15',
+      tone: 'danger',
     },
   ],
   done: [
     {
       label: 'Bater entrada',
       status: 'IN',
-      className: 'border-emerald-300/30 bg-emerald-300/10 text-emerald-200 hover:bg-emerald-300/15',
+      tone: 'success',
     },
   ],
 }

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 
 import AuthField from '@/presentation/auth/components/auth-field'
 import PasswordField from '@/presentation/auth/components/password-field'
+import { Button } from '@/presentation/shared/components'
 import { UserIcon } from '@/presentation/icons'
 
 export type CreateUserFormInput = {
@@ -57,15 +58,17 @@ export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalPr
               Novo acesso para dashboard local
             </p>
           </div>
-          <button
+          <Button
             aria-label="Fechar modal de criar usuário"
-            className="btn btn-sm border-[#4b4d62] bg-transparent text-[#6272a4] hover:border-[#bd93f9] hover:bg-[#bd93f9]/10 hover:text-[#bd93f9]"
             disabled={isSubmitting}
             onClick={onClose}
+            rounded="xl"
+            size="sm"
+            variant="ghost"
             type="button"
           >
             Fechar
-          </button>
+          </Button>
         </header>
 
         <form
@@ -223,27 +226,25 @@ export function CreateUserModal({ isOpen, onClose, onCreate }: CreateUserModalPr
           ) : null}
 
           <div className="flex flex-col-reverse justify-end gap-2 border-t border-[#4b4d62]/70 pt-4 sm:flex-row">
-            <button
-              className="btn border-[#4b4d62] bg-transparent text-[#6272a4] hover:border-[#bd93f9] hover:bg-[#bd93f9]/10 hover:text-[#bd93f9]"
-              disabled={isSubmitting}
-              onClick={onClose}
-              type="button"
-            >
+            <Button disabled={isSubmitting} onClick={onClose} rounded="xl" size="sm" variant="secondary">
               Cancelar
-            </button>
-            <button
-              className="btn border-0 bg-[#bd93f9] font-medium text-[#282a36] hover:bg-[#caa8ff]"
-              disabled={isSubmitting}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={isSubmitting} rounded="xl" size="sm" type="submit" variant="primary">
               {isSubmitting ? 'Criando...' : 'Criar usuário'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
 
       <form className="modal-backdrop" method="dialog">
-        <button onClick={onClose} type="button">fechar</button>
+        <Button
+          aria-label="Fechar modal"
+          className="h-full w-full rounded-none border-0 bg-transparent p-0 text-transparent shadow-none hover:bg-transparent focus-visible:ring-0"
+          onClick={onClose}
+          variant="ghost"
+        >
+          fechar
+        </Button>
       </form>
     </dialog>
   )

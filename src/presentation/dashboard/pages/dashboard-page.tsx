@@ -20,6 +20,7 @@ import {
 import { DashboardHistoryTable } from '@/presentation/dashboard/components/dashboard-history-table'
 import { DashboardStatusCard } from '@/presentation/dashboard/components/dashboard-status-card'
 import { type CreateUserFormInput, CreateUserModal } from '@/presentation/dashboard/components/create-user-modal'
+import { Button } from '@/presentation/shared/components'
 
 type DashboardPageProps = {
   user: AuthenticatedUser
@@ -185,13 +186,9 @@ export default function DashboardPage({ user }: DashboardPageProps) {
             <span className="badge border-[#bd93f9]/40 bg-[#bd93f9]/15 text-[#bd93f9] p-2 rounded-lg">
               {user.role === 'admin' ? 'admin' : 'funcionário'}
             </span>
-            <button
-              className="btn btn-sm border-[#4b4d62] bg-transparent text-[#6272a4] hover:border-red-300 hover:bg-red-300/10 hover:text-red-200 rounded-lg"
-              onClick={handleLogout}
-              type="button"
-            >
+            <Button onClick={handleLogout} rounded="xl" size="sm" variant="ghost">
               Sair
-            </button>
+            </Button>
           </div>
         </header>
 
@@ -210,14 +207,18 @@ export default function DashboardPage({ user }: DashboardPageProps) {
               </h2>
               <div className="grid gap-2">
                 {currentStatus.actions.map(action => (
-                  <button
-                    className={`btn justify-start border ${action.className}`}
+                  <Button
                     key={action.status}
+                    fullWidth
+                    justify="start"
                     onClick={() => void handleClockAction(action.status)}
+                    rounded="xl"
+                    tone={action.tone}
+                    variant="status"
                     type="button"
                   >
                     {action.label}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </section>
@@ -227,16 +228,19 @@ export default function DashboardPage({ user }: DashboardPageProps) {
                 <h2 className="text-xs font-medium uppercase tracking-[0.14em] text-[#6272a4]" id="admin-actions-title">
                   Administração
                 </h2>
-                <button
-                  className="btn justify-start border-[#bd93f9]/40 bg-[#bd93f9]/10 text-[#bd93f9] hover:bg-[#bd93f9]/15"
+                <Button
+                  fullWidth
+                  justify="start"
                   onClick={() => {
                     setCreateUserModalVersion(currentVersion => currentVersion + 1)
                     setIsCreateUserModalOpen(true)
                   }}
+                  rounded="xl"
+                  variant="primary"
                   type="button"
                 >
                   Criar usuário
-                </button>
+                </Button>
               </section>
             ) : null}
           </aside>
